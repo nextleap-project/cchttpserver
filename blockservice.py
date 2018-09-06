@@ -23,15 +23,15 @@ def get_pw(username):
     return None
 
 
-@app.route('/', methods=["GET", "HEAD"])
-def get():
-    return store.get("last", None)
+@app.route('/<key>', methods=["GET", "HEAD"])
+def get(key):
+    return store.get(key, None)
 
 
-@app.route('/', methods=["PUT"])
+@app.route('/<key>', methods=["PUT"])
 @auth.login_required
-def put():
-    store["last"] = request.data
+def put(key):
+    store[key] = request.data
     return ""
 
 
