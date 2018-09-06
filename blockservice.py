@@ -31,6 +31,12 @@ def get(key):
 @app.route('/<key>', methods=["PUT"])
 @auth.login_required
 def put(key):
+    value = store.get(key, None)
+    if value:
+        if value == request.data:
+            return "", 202
+        else:
+            return "", 409
     store[key] = request.data
     return ""
 

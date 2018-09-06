@@ -29,3 +29,18 @@ def test_put_and_get(app):
         r = app.get('/' + key)
         assert r.status_code == 200
         assert r.get_data() == data
+
+
+def test_indicate_repetition(app):
+    data = b"123"
+    creds = base64.b64encode(b'a:pass').decode('utf-8')
+    r = app.put('/adsf', data=data, headers={'Authorization': 'Basic ' + creds})
+    r = app.put('/adsf', data=data, headers={'Authorization': 'Basic ' + creds})
+    assert r.status_code == 202
+
+
+def test_signal_conflict_on_overwrite_attempt(app):
+    creds = base64.b64encode(b'a:pass').decode('utf-8')
+    r = app.put('/adsf', data=b"123", headers={'Authorization': 'Basic ' + creds})
+    r = app.put('/adsf', data=b"234", headers={'Authorization': 'Basic ' + creds})
+    assert r.status_code == 409
