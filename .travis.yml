@@ -3,22 +3,12 @@ language: python
 dist: trusty
 python:
     - '3.5'
+    - '2.7'
 
-env:
-  matrix:
-    - TESTENV=lint
-    - TESTENV=py27
-#    - TESTENV=py35
+install: pip install tox-travis
 
 script:
-  - tox -e $TESTENV --recreate 
+  - tox
 
-#notifications:
-#  irc:
-#    channels:
-#      - "chat.freenode.net#autocrypt"
-#    on_success: change
-#    on_failure: change
-#    skip_join: true
-#  email:
-#    - pytest-commit@python.org
+notifications:
+  email: false
