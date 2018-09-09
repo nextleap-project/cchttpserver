@@ -14,7 +14,9 @@ class TestDummyStore:
 
 
     def test_set_and_get(self, ds):
-        ds.set('a', b'asdf')
+        ds.set('a', 'a', b'asdf')
+        ds.set('c', 'c', b'csdf')
         assert ds.get('a') == b'asdf'
+        assert ds.get('c') == b'csdf'
         with pytest.raises(KeyError):
             ds.get('b')
