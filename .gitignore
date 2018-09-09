@@ -1,7 +1,8 @@
 *.pyc
 __pycache__
-muacrypt.egg-info
+blockservice.egg-info
 doc/_build
+.pytest_cache
 .cache
 *.swp
 .tox
