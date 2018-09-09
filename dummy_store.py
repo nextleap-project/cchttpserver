@@ -8,8 +8,19 @@ class DummyStore:
     def __init__(self):
         self._data = {}
 
-    def set(self, owner, key, value):
+    def set_as(self, owner, key, value):
         self._data[key] = value
 
     def get(self, key):
         return self._data[key]
+
+    def writer(self, owner):
+        return DummyStoreWriter(self, owner)
+
+class DummyStoreWriter:
+    def __init__(self, store, owner):
+        self._store = store
+        self._owner = owner
+
+    def set(self, key, value):
+        self._store.set_as(self._owner, key, value)
