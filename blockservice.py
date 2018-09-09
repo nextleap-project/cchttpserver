@@ -2,6 +2,7 @@ __version__ = "0.5"
 
 from flask import Flask, request
 from flask_httpauth import HTTPBasicAuth
+from dummy_store import DummyStore
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
@@ -13,7 +14,7 @@ users = {
     "d": "pass",
 }
 
-store = {}
+store = DummyStore()
 
 
 @auth.get_password
@@ -37,7 +38,8 @@ def put(key):
             return "", 202
         else:
             return "", 409
-    store[key] = request.data
+    writer = store.writer(auth.username())
+    writer.set(key, request.data)
     return ""
 
 

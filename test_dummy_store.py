@@ -20,5 +20,5 @@ class TestDummyStore:
         b.set('b', b'bsdf')
         assert ds.get('a') == b'asdf'
         assert ds.get('b') == b'bsdf'
-        with pytest.raises(KeyError):
-            ds.get('c')
+        assert ds.get('c') == None
+        assert ds.get('c', 'default') == 'default'
