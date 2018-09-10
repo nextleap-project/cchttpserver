@@ -5,7 +5,7 @@ import blockservice
 
 @pytest.fixture
 def app():
-    return blockservice.app.test_client()
+    return blockservice.create_app().test_client()
 
 
 def test_put_invalid_login(app):
