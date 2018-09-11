@@ -5,17 +5,18 @@ from flask_httpauth import HTTPBasicAuth
 from dummy_store import DummyStore
 
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__)
     auth = HTTPBasicAuth()
 
-    users = {
-        "a": "pass",
-        "b": "pass",
-        "c": "pass",
-        "d": "pass",
-    }
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config['users'] = test_config.get('users')
 
+    users = app.config.get('users')
     store = DummyStore()
 
     @auth.get_password
