@@ -2,7 +2,7 @@ __version__ = "0.6.0.dev1"
 
 from flask import Flask, request
 from flask_httpauth import HTTPBasicAuth
-from dummy_store import DummyStore
+from ccfilestore import CCFileStore
 
 
 def create_app(test_config=None):
@@ -11,13 +11,15 @@ def create_app(test_config=None):
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_pyfile('config_cchttpserver.py')
     else:
         # load the test config if passed in
-        app.config['users'] = test_config.get('users')
+        app.config['users'] = test_config['users']
+        app.config['dbdir'] = test_config['dbdir']
 
-    users = app.config.get('users')
-    store = DummyStore()
+    users = app.config['users']
+    dbdir = app.config['dbdir']
+    store = CCFileStore(dbdir)
 
     @auth.get_password
     def get_pw(username):
@@ -27,19 +29,29 @@ def create_app(test_config=None):
 
     @app.route('/<key>', methods=["GET", "HEAD"])
     def get(key):
-        return store.get(key, None)
+        val = store.get(key)
+        if val is not None:
+            return val
+        return "", 404
 
     @app.route('/<key>', methods=["PUT"])
     @auth.login_required
     def put(key):
-        value = store.get(key, None)
-        if value:
+        value = store.get(key)
+        if value is not None:
             if value == request.data:
                 return "", 202
             else:
                 return "", 409
-        writer = store.writer(auth.username())
-        writer.set(key, request.data)
+        store.set_as(auth.username(), key, request.data)
+        return ""
+
+    @app.route('/<user>/', methods=["DELETE"])
+    @auth.login_required
+    def delete(user):
+        if request.authorization['username'] != user:
+            return repr(request.authorization["username"]) + " " + repr(user), 403
+        store.delete_user(user)
         return ""
 
     return app

@@ -1,6 +1,7 @@
 *.pyc
 __pycache__
-blockservice.egg-info
+cchttpserver.egg-info
+config.py
 doc/_build
 .pytest_cache
 .cache

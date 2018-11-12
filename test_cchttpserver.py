@@ -4,16 +4,19 @@ import cchttpserver
 
 
 @pytest.fixture
-def app():
+def app(tmpdir):
     users = {
         "a": "pass",
         "b": "pass",
         "c": "pass",
         "d": "pass",
     }
-    config = {"users": users}
+    config = {"users": users,
+              'dbdir': tmpdir.join("db").strpath}
 
-    return cchttpserver.create_app(config).test_client()
+    app = cchttpserver.create_app(config)
+    app.debug = True
+    return app.test_client()
 
 
 def test_put_invalid_login(app):
@@ -37,6 +40,14 @@ def test_put_and_get(app):
         r = app.get('/' + key)
         assert r.status_code == 200
         assert r.get_data() == data
+
+    r = app.delete('/a/', headers={'Authorization': 'Basic ' + creds})
+    assert r.status_code == 200
+
+    for data in (b"123", b"456"):
+        key = base64.b64encode(data).decode('utf-8')
+        r = app.get('/' + key)
+        assert r.status_code == 404
 
 
 def test_indicate_repetition(app):
