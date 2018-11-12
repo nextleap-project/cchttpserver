@@ -1,6 +1,6 @@
 import base64
 import pytest
-import blockservice
+import cchttpserver
 
 
 @pytest.fixture
@@ -13,7 +13,7 @@ def app():
     }
     config = {"users": users}
 
-    return blockservice.create_app(config).test_client()
+    return cchttpserver.create_app(config).test_client()
 
 
 def test_put_invalid_login(app):

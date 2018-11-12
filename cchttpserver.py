@@ -1,4 +1,4 @@
-__version__ = "0.5"
+__version__ = "0.6.0.dev1"
 
 from flask import Flask, request
 from flask_httpauth import HTTPBasicAuth

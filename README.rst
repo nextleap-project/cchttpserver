@@ -1,6 +1,6 @@
-http blockservice
-=================
+claimchain http block server
+============================
 
-Key value store where the key is a hash computed from the value.
+Simple http-server for "claimchain" blocks.
 
-It uses Flask to serve HTTP GET and PUT requests.
+It uses Flask to serve HTTP GET and authenticated PUT requests.

@@ -2,7 +2,7 @@ import os
 from setuptools import setup
 
 def main():
-    with open(os.path.join("blockservice.py")) as f:
+    with open(os.path.join("cchttpserver.py")) as f:
         for line in f:
             if "__version__" in line.strip():
                 version = line.split("=", 1)[1].strip().strip('"')
@@ -12,11 +12,11 @@ def main():
         long_desc = f.read()
 
     setup(
-        name='blockservice',
-        description='serve self-authenticating http blockstore',
+        name='cchttpserver',
+        description='http server for claimchain blocks',
         long_description = long_desc,
         version=version,
-        url='https://blockservice.readthedocs.io',
+        url='https://cchttpserver.readthedocs.io',
         license='MIT license',
         platforms=['unix', 'linux', 'osx', 'cygwin', 'win32'],
         classifiers=['Development Status :: 3 - Alpha',
@@ -27,12 +27,7 @@ def main():
                      'Topic :: Utilities',
                      'Intended Audience :: Developers',
                      'Programming Language :: Python'],
-        modules=['blockservice'],
-        entry_points={
-            "muacrypt": [
-                "muacryptcc=muacryptcc.plugin"
-            ]
-        },
+        modules=['cchttpserver'],
         install_requires=["flask", "flask-httpauth"],
         zip_safe=False,
     )
