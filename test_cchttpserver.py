@@ -28,7 +28,7 @@ def test_put_invalid_login(app):
     assert r.status_code == 401
 
 
-def test_put_and_get(app):
+def test_put_and_get_and_delete(app):
     for data in (b"123", b"456"):
         creds = base64.b64encode(b'a:pass').decode('utf-8')
         key = base64.b64encode(data).decode('utf-8')
@@ -48,6 +48,9 @@ def test_put_and_get(app):
         key = base64.b64encode(data).decode('utf-8')
         r = app.get('/' + key)
         assert r.status_code == 404
+
+    r = app.delete('/a/', headers={'Authorization': 'Basic ' + creds})
+    assert r.status_code == 200
 
 
 def test_indicate_repetition(app):

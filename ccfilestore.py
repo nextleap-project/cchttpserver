@@ -58,9 +58,13 @@ class CCFileStore:
 
     def delete_user(self, user):
         user_fn = self._get_userlist_path(user)
-        for key in open(user_fn):
-            key = key.strip()
-            if not key:
-                continue
-            os.remove(self._get_keypath(key))
-        os.remove(user_fn)
+        try:
+            for key in open(user_fn):
+                key = key.strip()
+                if not key:
+                    continue
+                os.remove(self._get_keypath(key))
+        except IOError:
+            pass
+        else:
+            os.remove(user_fn)

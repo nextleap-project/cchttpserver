@@ -1,4 +1,4 @@
-__version__ = "0.6.0.dev1"
+__version__ = "0.6.0"
 
 from flask import Flask, request
 from flask_httpauth import HTTPBasicAuth
@@ -11,14 +11,15 @@ def create_app(test_config=None):
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config_cchttpserver.py')
+        app.config.from_pyfile('config.py')
+        print (app.config)
     else:
         # load the test config if passed in
-        app.config['users'] = test_config['users']
-        app.config['dbdir'] = test_config['dbdir']
+        app.config['USERS'] = test_config['users']
+        app.config['DBDIR'] = test_config['dbdir']
 
-    users = app.config['users']
-    dbdir = app.config['dbdir']
+    users = app.config['USERS']
+    dbdir = app.config['DBDIR']
     store = CCFileStore(dbdir)
 
     @auth.get_password

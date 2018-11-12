@@ -45,3 +45,5 @@ class TestCCFileStore:
         ds.delete_user('user1')
         assert ds.get('a1') is None
         assert ds.get_user_keys('user1') == []
+        ds.delete_user("user1")
+        assert ds.get_user_keys('user1') == []
