@@ -1,4 +1,9 @@
 
+0.6.1
+-----
+
+- restrict keys to be alphanumberic and at least 32 chars long
+
 0.6
 ---
 
