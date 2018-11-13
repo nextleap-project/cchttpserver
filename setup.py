@@ -2,7 +2,7 @@ import os
 from setuptools import setup
 
 def main():
-    with open(os.path.join("cchttpserver.py")) as f:
+    with open(os.path.join("cchttpserver", "__init__.py")) as f:
         for line in f:
             if "__version__" in line.strip():
                 version = line.split("=", 1)[1].strip().strip('"')
@@ -27,7 +27,7 @@ def main():
                      'Topic :: Utilities',
                      'Intended Audience :: Developers',
                      'Programming Language :: Python'],
-        modules=['cchttpserver'],
+        packages=['cchttpserver'],
         install_requires=["flask", "flask-httpauth"],
         zip_safe=False,
     )

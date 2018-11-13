@@ -1,7 +1,7 @@
 import base64
 import hashlib
 import pytest
-import cchttpserver
+from cchttpserver import create_app
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def app(tmpdir):
     config = {"users": users,
               'dbdir': tmpdir.join("db").strpath}
 
-    app = cchttpserver.create_app(config)
+    app = create_app(config)
     app.debug = True
     return app.test_client()
 

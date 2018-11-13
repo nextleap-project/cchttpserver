@@ -1,4 +1,12 @@
 
+0.6.2
+-----
+
+- move modules into a package and make "python -m cchttpserver" work.
+
+- introduce environment variable CCHTTPSERVER_CONFIG which needs
+  to point to a config file
+
 0.6.1
 -----
 

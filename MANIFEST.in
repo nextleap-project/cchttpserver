@@ -2,8 +2,6 @@ include *.txt
 include LICENSE
 include *.rst
 include tox.ini
-include cchttpserver.py
-include test_cchttpserver.py
-include ccfilestore.py
-include test_ccfilestore.py
+include cchttpserver/*.py
+include tests/*.py
 exclude config.py

@@ -1,18 +1,18 @@
-__version__ = "0.6.1"
-
+import os
+import pprint
 from flask import Flask, request
 from flask_httpauth import HTTPBasicAuth
-from ccfilestore import CCFileStore
+from .filestore import CCFileStore
 
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    app = Flask("cchttpserver")
     auth = HTTPBasicAuth()
 
     if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py')
-        print (app.config)
+        get_config_path()
+        app.config.from_pyfile(p, silent=False)
+        pprint.pprint(app.config)
     else:
         # load the test config if passed in
         app.config['USERS'] = test_config['users']
@@ -62,6 +62,28 @@ def create_app(test_config=None):
     return app
 
 
-if __name__ == '__main__':
+def get_config_path():
+    config_path = os.environ.get("CCHTTPSERVER_CONFIG")
+    if not config_path:
+        print("""CCHTTPSERVER_CONFIG not set to a config file.
+Example "config.py" file content:
+
+    # users is a mapping of login-usernames to cleartext-passwords
+    USERS = {
+        'test1': 'password1',
+    }
+
+    # dbdir is the directory where all blockserver state is stored
+    DBDIR = '/tmp/cchttpserver_dir'
+""")
+        raise SystemExit("CCHTTPSERVER_CONFIG not set to a config file")
+    return os.path.join(os.getcwd(), config_path)
+
+
+def main():
     app = create_app()
     app.run()
+
+
+if __name__ == "__main__":
+    main()

@@ -4,7 +4,7 @@
 from __future__ import unicode_literals, print_function
 
 import pytest
-from ccfilestore import CCFileStore
+from cchttpserver.filestore import CCFileStore
 
 
 class TestCCFileStore:
