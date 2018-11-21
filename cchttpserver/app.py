@@ -10,7 +10,7 @@ def create_app(test_config=None):
     auth = HTTPBasicAuth()
 
     if test_config is None:
-        get_config_path()
+        p = get_config_path()
         app.config.from_pyfile(p, silent=False)
         pprint.pprint(app.config)
     else:
