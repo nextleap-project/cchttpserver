@@ -1,3 +1,8 @@
+0.6.3
+-----
+
+- fix reading config from file specified in CCHTTPSERVER_CONFIG
+
 
 0.6.2
 -----
